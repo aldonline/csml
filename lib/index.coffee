@@ -1,6 +1,10 @@
 collector = require 'collector'
 
-module.exports = tag_collector = collector()
+tag_collector = collector()
+x = ( f ) -> tag_collector.attach(f)()
+x.attach = tag_collector.attach
+module.exports = x
+
 
 class Tag
   constructor: ( args ) ->
