@@ -18,7 +18,7 @@ class Tag
     has_prop = no
     for arg in args when typeof arg is 'object'
       for own k, v of arg
-        if k is '_' # content can be passed with the undercore key
+        if k is '_' # content can be passed with the underscore key
           @content = v
         else
           has_prop = yes
