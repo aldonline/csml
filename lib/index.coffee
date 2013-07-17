@@ -20,11 +20,8 @@ class Tag
     has_prop = no
     for arg in args when typeof arg is 'object'
       for own k, v of arg
-        if k is '_' # content can be passed with the underscore key
-          @content = v
-        else
-          has_prop = yes
-          @props[k] = v
+        has_prop = yes
+        @props[k] = v
 
     delete @content unless @content?
     delete @props unless has_prop
@@ -50,4 +47,4 @@ assert_tags = ( tags, args ) ->
       tag_collector new Tag [tags[0]].concat args
   # recursion
   else 
-    assert_tags [tags.shift()], _ : -> assert_tags tags, args
+    assert_tags [tags.shift()], -> assert_tags tags, args

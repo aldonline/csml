@@ -53,13 +53,6 @@ describe 'CSML', ->
     a.props.b.should.equal 'b'
     a.props.c.should.equal 'c'
 
-  it 'should treat the _ property as content', ->
-    tags = csml -> 'a'._ ( a:'a', b:'b' ), c:'c', _: 'content'
-    tags.should.have.length 2
-    a = tags[0]
-    a.tag.should.equal 'a'
-    a.content.should.equal 'content'
-
   it 'should treat the last argument as content', ->
     tags = csml -> 'a'._ ( a:'a', b:'b' ), c:'c', 'content'
     tags.should.have.length 2
