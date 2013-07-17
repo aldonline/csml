@@ -4,14 +4,10 @@ should = chai.should()
 csml = require '../lib'
 
 describe 'CSML', ->
-  it 'should work', ->
-    tags = do csml.attach -> 'a'._()
-    tags.should.have.length 2
-    tags[0].should.be.a 'object'
-    tags[0].tag.should.equal 'a'
 
-  it 'should work using shortcut form', ->
+  it 'should capture one tag', ->
     tags = csml -> 'a'._()
+    # last item is return value ( undefined in this case )
     tags.should.have.length 2
     tags[0].should.be.a 'object'
     tags[0].tag.should.equal 'a'
@@ -59,3 +55,9 @@ describe 'CSML', ->
     a = tags[0]
     a.tag.should.equal 'a'
     a.content.should.equal 'content'
+
+  it 'can be applied as a combinator', ->
+    tags = do csml.combinator -> 'a'._()
+    tags.should.have.length 2
+    tags[0].should.be.a 'object'
+    tags[0].tag.should.equal 'a'

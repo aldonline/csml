@@ -2,7 +2,13 @@ collector = require 'collector'
 
 tag_collector = collector()
 x = ( f ) -> tag_collector.attach(f)()
-x.attach = tag_collector.attach
+
+# You could wrap this function as a combinator manually.
+# However, since we are using a combinator internally,
+# exposing this method directly saves us from creating two extra function objects.
+# If the implementation changes we can keep this API. No harm done;
+x.combinator = tag_collector.attach
+
 module.exports = x
 
 
