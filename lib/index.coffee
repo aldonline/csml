@@ -12,6 +12,8 @@ class Tag
     # 1. tag, id, classes come first
     @tag = args.shift()
     # 2. optional content comes last. can be anything but an object
+    # if you wish content to be an object then pass a function that
+    # returns an object
     @content = args.pop() if typeof args[-1..][0] isnt 'object'
     # 3. the rest are property maps
     @props = {}
