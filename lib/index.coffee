@@ -1,15 +1,14 @@
 collector = require 'collector'
 
 tag_collector = collector()
-x = ( f ) -> tag_collector.attach(f)()
-
-# You could wrap this function as a combinator manually.
-# However, since we are using a combinator internally,
-# exposing this method directly saves us from creating two extra function objects.
-# If the implementation changes we can keep this API. No harm done;
-x.combinator = tag_collector.attach
-
-module.exports = x
+module.exports = ( f ) ->
+  tags = tag_collector.attach(f)()
+  retval = tags.pop()
+  # the last statement on a block can be a tag
+  # or something else. if it is something else
+  # then we set the retval property.
+  tags.retval = retval unless retval instanceof Tag
+  tags
 
 
 class Tag
@@ -50,7 +49,11 @@ assert_tags = ( tags, args ) ->
 
   # check for end of recursion
   if tags.length is 1
-      tag_collector new Tag [tags[0]].concat args
+      tag_collector t = new Tag [tags[0]].concat args
+      # return tag. this is never returned to the end user
+      # but we use it internally to detect whether the final
+      # statement of a block is a tag or something else ( a retval )
+      t
   # recursion
   else 
     assert_tags [tags.shift()], -> assert_tags tags, args
